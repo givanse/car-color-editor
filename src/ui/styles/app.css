@@ -1,3 +1,5 @@
-h1 {
-  color: #444;
+html, body, #app, #stl_cont {
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
