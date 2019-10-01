@@ -1,8 +1,7 @@
 import Component, { tracked } from '@glimmer/component';
-//import Pickr from '@simonwep/pickr'; //TODO
 
 const modelIds = {
-  car: 1001,
+  car: [1001],
   calipers: [2011, 6012, 4013, 5014],
   rims: [301, 302, 303, 304],
 }
@@ -32,65 +31,6 @@ export default class StlViewerViewport extends Component {
     const { firstNode } = this.bounds;
     const hostElement = firstNode.parentElement.querySelector('#stl_cont');
     this.stlViewer = this.initStlViewwer(hostElement);
-    this._initColorPickers(firstNode.parentElement);
-  }
-
-  _initColorPickers(parentElement) {
-    let input = parentElement.querySelector('input[name=carColor]');
-    this._addColorPicker(input, this.carColor, color => {
-      const hexa = color.toHEXA().toString();
-      this.carColor = hexa; 
-      this.stlViewer.set_color(modelIds.car, this.carColor);
-    });
-
-    input = parentElement.querySelector('input[name=caliperColor]');
-    this._addColorPicker(input, this.caliperColor, color => {
-      const hexa = color.toHEXA().toString();
-      this.caliperColor = hexa; 
-      for (const id of modelIds.calipers) {
-        this.stlViewer.set_color(id, this.caliperColor);
-      }
-    });
-
-    input = parentElement.querySelector('input[name=rimColor]');
-    this._addColorPicker(input, this.rimColor, color => {
-      const hexa = color.toHEXA().toString();
-      this.rimColor = hexa;
-      for (const id of modelIds.rims) {
-        this.stlViewer.set_color(id, this.rimColor);
-      }
-    });
-
-  }
-
-  _addColorPicker(input: Element, defaultColor, onchange) {
-    window.Pickr.create({
-      el: input,
-      useAsButton: true,
-      defaultRepresentation: 'HEXA',
-      default: defaultColor,
-      theme: 'nano',
-      autoReposition: true,
-      components: {
-        // Main components
-        preview: true,
-        opacity: true,
-        hue: true,
-        // Input / output Options
-        interaction: {
-          hex: true,
-          rgba: false,
-          hsla: false,
-          hsva: false,
-          cmyk: false,
-          input: true,
-          cancel: true,
-          clear: true,
-          save: true,
-        }
-      }
-    })
-    .on('change', onchange);
   }
 
   private initStlViewwer(hostElement) {
@@ -113,6 +53,9 @@ export default class StlViewerViewport extends Component {
     const initParams = {
       allow_drag_and_drop: false,
       auto_rotate: false,
+      camerax: 3750,
+      cameray: 1000,
+      zoom: 4000,
       bgcolor: 'white',
       all_loaded_callback: function() {
         this.all3dFilesLoaded = true;
@@ -147,7 +90,7 @@ export default class StlViewerViewport extends Component {
         {filename: 'windshield.stl', y: 300, z: 800, color: '#ebf3ff'},
         {filename: 'Rear_glass_roof_and_window.stl', y: 500, z: -1230, color: '#333333'},
         {filename: 'Front_glass_roof.stl', y: 600, z: -50, color: '#333333'},
-        {id: modelIds.car, filename: 'rest_of_car.stl', color: carColor},
+        {id: modelIds.car[0], filename: 'rest_of_car.stl', color: carColor},
         /*
         {filename: 'gdisc_and_axle.stl'},
         {filename: 'gDoor_handles_and_side_cams.stl'},
@@ -173,10 +116,24 @@ export default class StlViewerViewport extends Component {
     return new StlViewer(hostElement, initParams);
   }
 
-  colorChange(event) {
-    //const input = event.target;
-    //const colorName = input.name;
-    //this[colorName] = input.value;
-    console.log(event.target.value);
+  updateColor(colorName: string, color: string) {
+    this[colorName] = color;
+    //TODO: maybe turn into a proper map
+    let ids;
+    switch(colorName) {
+      case 'carColor':
+        ids = modelIds.car;
+        break;
+      case 'rimColor':
+        ids = modelIds.rims;
+        break;
+      case 'caliperColor':
+        ids = modelIds.calipers;
+        break;
+    }
+
+    for (const modelId of ids) {
+      this.stlViewer.set_color(modelId, color);
+    }
   }
 }

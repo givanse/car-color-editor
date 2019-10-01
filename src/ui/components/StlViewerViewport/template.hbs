@@ -1,14 +1,15 @@
-<input name="carColor" 
-       style="background-color: {{carColor}};"
-       value={{carColor}} />
        
-<input name="caliperColor" 
-       style="background-color: {{caliperColor}};"
-       value={{caliperColor}} />
+<ColorInput @colorName="carColor"
+            @color={{carColor}}
+            @updateColor={{action updateColor}} />
 
-<input name="rimColor" 
-       style="background-color: {{rimColor}};"
-       value={{rimColor}} />
+<ColorInput @colorName="caliperColor"
+            @color={{caliperColor}}
+            @updateColor={{action updateColor}} />
+
+<ColorInput @colorName="rimColor"
+            @color={{rimColor}}
+            @updateColor={{action updateColor}} />
 
 <div class="spinner-wrapper {{if all3dFilesLoaded 'shrink'}}">
   {{#unless all3dFilesLoaded}}
