@@ -6,7 +6,6 @@ const funnel = require('broccoli-funnel');
 
 module.exports = function(defaults) {
   let app = new GlimmerApp(defaults, {
-    // Add options here
   });
 
   const stls = funnel('vendors/tm3_split_mesh/files');

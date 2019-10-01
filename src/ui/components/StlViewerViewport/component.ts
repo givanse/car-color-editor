@@ -17,30 +17,34 @@ export default class StlViewerViewport extends Component {
   caliperColor: string;
   @tracked
   rimColor: string;
+  @tracked
+  all3dFilesLoaded: boolean = false;
 
   constructor(options) {
     super(options);
 
-    this.carColor = '#57beff';
-    this.caliperColor = '#ebf551';
-    this.rimColor = '#51f5f5';
+    this.carColor = '#6444a9';
+    this.caliperColor = '#ffeb30';
+    this.rimColor = '#99ffff';
   }
 
   public didInsertElement() {
     const { firstNode } = this.bounds;
     const hostElement = firstNode.parentElement.querySelector('#stl_cont');
     this.stlViewer = this.initStlViewwer(hostElement);
+    this._initColorPickers(firstNode.parentElement);
+  }
 
-    //TODO: refactor
-    let input = firstNode.parentElement.querySelector('input[name=carColor]');
-    this._addColorPicker(input, color => {
+  _initColorPickers(parentElement) {
+    let input = parentElement.querySelector('input[name=carColor]');
+    this._addColorPicker(input, this.carColor, color => {
       const hexa = color.toHEXA().toString();
       this.carColor = hexa; 
       this.stlViewer.set_color(modelIds.car, this.carColor);
     });
 
-    input = firstNode.parentElement.querySelector('input[name=caliperColor]');
-    this._addColorPicker(input, color => {
+    input = parentElement.querySelector('input[name=caliperColor]');
+    this._addColorPicker(input, this.caliperColor, color => {
       const hexa = color.toHEXA().toString();
       this.caliperColor = hexa; 
       for (const id of modelIds.calipers) {
@@ -48,21 +52,23 @@ export default class StlViewerViewport extends Component {
       }
     });
 
-    input = firstNode.parentElement.querySelector('input[name=rimColor]');
-    this._addColorPicker(input, color => {
+    input = parentElement.querySelector('input[name=rimColor]');
+    this._addColorPicker(input, this.rimColor, color => {
       const hexa = color.toHEXA().toString();
-      this.rimColor = hexa; 
+      this.rimColor = hexa;
       for (const id of modelIds.rims) {
         this.stlViewer.set_color(id, this.rimColor);
       }
     });
+
   }
 
-  _addColorPicker(input: Element, onchange) {
+  _addColorPicker(input: Element, defaultColor, onchange) {
     window.Pickr.create({
       el: input,
       useAsButton: true,
-      defaultRepresentation: 'RGBA',
+      defaultRepresentation: 'HEXA',
+      default: defaultColor,
       theme: 'nano',
       autoReposition: true,
       components: {
@@ -108,6 +114,9 @@ export default class StlViewerViewport extends Component {
       allow_drag_and_drop: false,
       auto_rotate: false,
       bgcolor: 'white',
+      all_loaded_callback: function() {
+        this.all3dFilesLoaded = true;
+      }.bind(this),
       models: [
         // Looking from the front
         // front right
