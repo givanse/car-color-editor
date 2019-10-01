@@ -11,6 +11,14 @@
             @color={{rimColor}}
             @updateColor={{action updateColor}} />
 
+<ColorInput @colorName="chromeTrimColor"
+            @color={{chromeTrimColor}}
+            @updateColor={{action updateColor}} />
+
+<ColorInput @colorName="headLightsColor"
+            @color={{headLightsColor}}
+            @updateColor={{action updateColor}} />
+
 <div class="spinner-wrapper {{if all3dFilesLoaded 'shrink'}}">
   {{#unless all3dFilesLoaded}}
     <div class="spinner">
