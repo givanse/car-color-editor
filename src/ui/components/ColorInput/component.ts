@@ -42,6 +42,9 @@ export default class ColorInput extends Component {
     pickr.on('cancel', () => {
       this.args.updateColor(this.args.colorName, this.color);
     });
+    pickr.on('hide', () => {
+      this.args.updateColor(this.args.colorName, this.color);
+    });
   }
 
   buildPickr(input: Element, defaultColor: string) {

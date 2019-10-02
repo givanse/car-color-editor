@@ -50,7 +50,7 @@ export default class StlViewerViewport extends Component {
 
     const initParams = {
       allow_drag_and_drop: false,
-      auto_rotate: false,
+      auto_rotate: true,
       camerax: 3750,
       cameray: 1000,
       zoom: 4000,

@@ -1,27 +1,28 @@
-       
-<ColorInput @colorName="carColor"
-            @color={{carColor}}
-            @updateColor={{action updateColor}} />
+<div class="editor-tools">       
+  <ColorInput @colorName="carColor"
+              @color={{carColor}}
+              @updateColor={{action updateColor}} />
 
-<ColorInput @colorName="caliperColor"
-            @color={{caliperColor}}
-            @updateColor={{action updateColor}} />
+  <ColorInput @colorName="caliperColor"
+              @color={{caliperColor}}
+              @updateColor={{action updateColor}} />
 
-<ColorInput @colorName="rimColor"
-            @color={{rimColor}}
-            @updateColor={{action updateColor}} />
+  <ColorInput @colorName="rimColor"
+              @color={{rimColor}}
+              @updateColor={{action updateColor}} />
 
-<ColorInput @colorName="chromeTrimColor"
-            @color={{chromeTrimColor}}
-            @updateColor={{action updateColor}} />
+  <ColorInput @colorName="chromeTrimColor"
+              @color={{chromeTrimColor}}
+              @updateColor={{action updateColor}} />
 
-<ColorInput @colorName="headLightsColor"
-            @color={{headLightsColor}}
-            @updateColor={{action updateColor}} />
+  <ColorInput @colorName="headLightsColor"
+              @color={{headLightsColor}}
+              @updateColor={{action updateColor}} />
 
-<ColorInput @colorName="windowsColor"
-            @color={{windowsColor}}
-            @updateColor={{action updateColor}} />
+  <ColorInput @colorName="windowsColor"
+              @color={{windowsColor}}
+              @updateColor={{action updateColor}} />
+</div>
 
 <div class="spinner-wrapper {{if all3dFilesLoaded 'shrink'}}">
   {{#unless all3dFilesLoaded}}
@@ -36,3 +37,15 @@
 </div>
 
 <div id="stl_cont" class="stl_host"></div>
+
+<footer>
+  <br>
+  <a href="https://github.com/givanse/car-color-editor" target="_blank">
+    Source Code
+  </a>
+  <br>
+  <br>
+  <a href="https://www.netlify.com" target="_blank">
+    Deploys by Netlify
+  </a>
+</footer>
