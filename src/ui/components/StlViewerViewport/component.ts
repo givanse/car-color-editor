@@ -6,6 +6,7 @@ const modelIds = {
   rims: [301, 302, 303, 304],
   headLights: [405],
   chromeTrim: [501, 502, 503, 504, 506, 507],
+  windows: [601, 602, 603, 604],
 }
 
 export default class StlViewerViewport extends Component {
@@ -23,6 +24,8 @@ export default class StlViewerViewport extends Component {
   @tracked
   chromeTrimColor: string;
   @tracked
+  windowsColor: string;
+  @tracked
   all3dFilesLoaded: boolean = false;
 
   constructor(options) {
@@ -33,6 +36,7 @@ export default class StlViewerViewport extends Component {
     this.rimColor = '#181818';
     this.headLightsColor = '#9ec8ef';
     this.chromeTrimColor = '#363636';
+    this.windowsColor = '#9ec8ef';
   }
 
   public didInsertElement() {
@@ -58,7 +62,7 @@ export default class StlViewerViewport extends Component {
     const rearLightsColor = '#910000';
     const discColor = '#363636';
     const windshieldColor = '#9ec8ef';
-    const windshieldOpacity = 0.75;
+    const windshieldOpacity = 0.5;
 
     const headLightsColor = this.headLightsColor;
     const rimColor = this.rimColor;
@@ -149,13 +153,17 @@ export default class StlViewerViewport extends Component {
         {id: modelIds.chromeTrim[3], filename: 'Door_handles_and_side_cams.stl',
          color: chromeTrimColor, y: -10, z: 100},
 
-        {filename: 'Front_left_window.stl', color: windshieldColor, opacity: windshieldOpacity,
+        {id: modelIds.windows[0], filename: 'Front_left_window.stl',
+         color: this.windowsColor, opacity: windshieldOpacity,
          x: 745, y: 340, z: 277}, // right window
-        {filename: 'Front_right_window.stl', color: windshieldColor, opacity: windshieldOpacity,
+        {id: modelIds.windows[1], filename: 'Front_right_window.stl',
+         color: this.windowsColor, opacity: windshieldOpacity,
          x: -745, y: 340, z: 277}, // left window
-        {filename: 'Rear_left_window.stl', color: windshieldColor, opacity: windshieldOpacity,
+        {id: modelIds.windows[2], filename: 'Rear_left_window.stl',
+         color: this.windowsColor, opacity: windshieldOpacity,
          x: 720, y: 380, z: -905},
-        {filename: 'Rear_right_window.stl', color: windshieldColor, opacity: windshieldOpacity,
+        {id: modelIds.windows[3], filename: 'Rear_right_window.stl',
+         color: this.windowsColor, opacity: windshieldOpacity,
          x: -720, y: 380, z: -905},
 
         {id: modelIds.chromeTrim[4], filename: 'Rear_T_logo.stl',
@@ -187,6 +195,9 @@ export default class StlViewerViewport extends Component {
         break;
       case 'chromeTrimColor':
         ids = modelIds.chromeTrim;
+        break;
+      case 'windowsColor':
+        ids = modelIds.windows;
         break;
     }
 
