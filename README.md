@@ -1,6 +1,6 @@
 # car-color-editor
 
-![tm3-screenshot.png]
+![tm3 screenshot](tm3-screenshot.png)
 
 ## Prerequisites
 
