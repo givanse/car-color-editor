@@ -1,4 +1,16 @@
-export default function(modelIds, colors) {
+
+export const tm3ModelIds = {
+  car: [1101, 1302],
+  calipers: [2011, 6012, 4013, 5014],
+  rims: [301, 302, 303, 304],
+  headLights: [405],
+  chromeTrim: [501, 502, 503, 504, 506, 507],
+  windows: [601, 602, 603, 604],
+}
+
+export default function(colors) {
+  const modelIds = tm3ModelIds;
+
   const {
     carColor,
     headLightsColor,
@@ -29,7 +41,7 @@ export default function(modelIds, colors) {
   return [
     // All coordinates are offsets relative to the car model.
     // Looking from the front
-    {id: modelIds.car[0], filename: 'rest_of_car.stl', color: carColor},
+    {id: modelIds.car[0], display: 'smooth', filename: 'rest_of_car.stl', color: carColor},
 
     // front right
     {filename: 'tire.stl',
@@ -78,19 +90,25 @@ export default function(modelIds, colors) {
     {filename: 'rim_hub.stl', color: rimColor, x: -(frontwheelsx + 75), y: wheelsy, z: frontwheelsz},
 
     {filename: 'windshield.stl',
-      color: windshieldColor, opacity: windshieldOpacity, y: 310, z: 810},
+      color: windshieldColor, opacity: windshieldOpacity, display: 'smooth',
+      y: 310, z: 810},
     {filename: 'Rear_glass_roof_and_window.stl',
-      color: '#222222', opacity: .93, y: 500, z: -1230},
+     color: '#222222', opacity: .93, display: 'smooth',
+     y: 500, z: -1230},
     {filename: 'Front_glass_roof.stl',
-      color: '#222222', opacity: .93, y: 600, z: -50},
+     color: '#222222', opacity: .93, display: 'smooth'
+     y: 600, z: -50},
 
     {filename: 'Front_flashlights.stl', color: rearLightsColor, opacity: .9, y: -380, z: 2200},
     {filename: 'Rear_flashlights.stl', color: rearLightsColor, opcaity: .9, y: -415, z: -2245},
 
-    {id: modelIds.headLights[0], filename: 'front_headlights.stl',
-      color: headLightsColor, opacity: .87, y: -87, z: 2033},
+    {id: modelIds.headLights[0],
+     filename: 'front_headlights.stl',
+     color: headLightsColor, opacity: .87, display: 'smooth',
+     y: -87, z: 2033},
     {filename: 'Rear_lights.stl',
-      color: rearLightsColor, opacity: .9, y: 92, z: -2060},
+     color: rearLightsColor, opacity: .9, display: 'smooth',
+     y: 92, z: -2060},
 
     {id: modelIds.chromeTrim[0], filename: 'Left_window_trim.stl',
       color: chromeTrimColor, x: 740, y: 340, z: -275}, // right
@@ -102,16 +120,16 @@ export default function(modelIds, colors) {
     {id: modelIds.chromeTrim[3], filename: 'Door_handles_and_side_cams.stl',
       color: chromeTrimColor, y: -10, z: 100},
 
-    {id: modelIds.windows[0], filename: 'Front_left_window.stl',
+    {id: modelIds.windows[0], display: 'smooth', filename: 'Front_left_window.stl',
       color: windowsColor, opacity: windshieldOpacity,
       x: 745, y: 340, z: 277}, // right window
-    {id: modelIds.windows[1], filename: 'Front_right_window.stl',
+    {id: modelIds.windows[1], display: 'smooth', filename: 'Front_right_window.stl',
       color: windowsColor, opacity: windshieldOpacity,
       x: -745, y: 340, z: 277}, // left window
-    {id: modelIds.windows[2], filename: 'Rear_left_window.stl',
+    {id: modelIds.windows[2], display: 'smooth', filename: 'Rear_left_window.stl',
       color: windowsColor, opacity: windshieldOpacity,
       x: 720, y: 380, z: -905},
-    {id: modelIds.windows[3], filename: 'Rear_right_window.stl',
+    {id: modelIds.windows[3], display: 'smooth', filename: 'Rear_right_window.stl',
       color: windowsColor, opacity: windshieldOpacity,
       x: -720, y: 380, z: -905},
 

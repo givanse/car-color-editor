@@ -1,14 +1,5 @@
 import Component, { tracked } from '@glimmer/component';
-import getTM3Models from './tesla-m3.model';
-
-const modelIds = {
-  car: [1101, 1302],
-  calipers: [2011, 6012, 4013, 5014],
-  rims: [301, 302, 303, 304],
-  headLights: [405],
-  chromeTrim: [501, 502, 503, 504, 506, 507],
-  windows: [601, 602, 603, 604],
-}
+import getTM3Models, {tm3ModelIds} from './tesla-m3.model';
 
 export default class StlViewerViewport extends Component {
 
@@ -67,7 +58,7 @@ export default class StlViewerViewport extends Component {
       all_loaded_callback: function() {
         this.all3dFilesLoaded = true;
       }.bind(this),
-      models: getTM3Models(modelIds, colors),
+      models: getTM3Models(colors),
     };
     const StlViewer = window.StlViewer;
     return new StlViewer(hostElement, initParams);
@@ -77,6 +68,7 @@ export default class StlViewerViewport extends Component {
     this[colorName] = color;
     //TODO: maybe turn into a proper map
     let ids;
+    const modelIds = tm3ModelIds;
     switch(colorName) {
       case 'carColor':
         ids = modelIds.car;
