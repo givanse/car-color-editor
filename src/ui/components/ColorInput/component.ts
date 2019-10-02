@@ -68,15 +68,14 @@ export default class ColorInput extends Component {
             hsva: false,
             cmyk: false,
             input: true,
-            cancel: true,
-            clear: true,
             save: true,
+            clear: true,
+            cancel: false,
         }
       },
       strings: {
         save: 'yay',
         clear: 'nay',
-        cancel: 'reset',
       }
     });
   }

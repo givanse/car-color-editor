@@ -23,6 +23,27 @@ export default class StlViewerViewport extends Component {
   constructor(options) {
     super(options);
 
+    if (window.location.hash) {
+      this.parseHash(window.location.hash);
+    } else {
+      this.useDefaultColors();
+    }
+
+    this.updateQueryParams();
+  }
+
+  parseHash(hash: string) {
+
+    const search = hash.substring(hash.indexOf('?') + 1);
+    const queryParams = search.split('&');
+
+    for (const qp of queryParams) {
+      const [key, value] = qp.split('=');
+      this[key] = '#' + value; //TODO: color hashes are a mess
+    }
+  }
+
+  useDefaultColors() {
     this.carColor = '#b18f15';
     this.caliperColor = '#8916d1';
     this.rimColor = '#181818';
@@ -64,6 +85,35 @@ export default class StlViewerViewport extends Component {
     return new StlViewer(hostElement, initParams);
   }
 
+  buildQueryParams(obj) {
+    let qp = '';
+    
+    for (const key of Object.keys(obj)) {
+      if (qp) {
+        qp += '&';
+      }
+      qp += `${key}=${obj[key]}`;
+    }
+
+    return qp;
+  }
+
+  updateQueryParams() {
+    function removeHash(s) { return s.replace('#', ''); }
+
+    const values = {
+      carColor: removeHash(this.carColor),
+      caliperColor: removeHash(this.caliperColor),
+      rimColor: removeHash(this.rimColor),
+      chromeTrimColor: removeHash(this.chromeTrimColor),
+      headLightsColor: removeHash(this.headLightsColor),
+      windowsColor: removeHash(this.windowsColor),
+    };
+
+    const qp = this.buildQueryParams(values);
+    window.location.hash = '?' + qp;
+  }
+
   updateColor(colorName: string, color: string) {
     this[colorName] = color;
     //TODO: maybe turn into a proper map
@@ -93,5 +143,7 @@ export default class StlViewerViewport extends Component {
     for (const modelId of ids) {
       this.stlViewer.set_color(modelId, color);
     }
+
+    this.updateQueryParams();
   }
 }
