@@ -25,7 +25,21 @@ export default class ColorInput extends Component {
     
     pickr.on('change', color => {
       const newColor = color.toHEXA().toString();
-      this.color = newColor;
+      this.args.updateColor(this.args.colorName, newColor);
+    });
+    pickr.on('save', color => { // yay
+      if (!color) {
+        color = this.color;
+      } else {
+        color = color.toHEXA().toString();
+        this.color = color;
+      }
+      this.args.updateColor(this.args.colorName, this.color);
+    });
+    pickr.on('clear', () => {
+      this.args.updateColor(this.args.colorName, this.color);
+    });
+    pickr.on('cancel', () => {
       this.args.updateColor(this.args.colorName, this.color);
     });
   }
@@ -39,22 +53,27 @@ export default class ColorInput extends Component {
       theme: 'nano',
       autoReposition: true,
       components: {
-      // Main components
-      preview: true,
-      opacity: true,
-      hue: true,
-      // Input / output Options
-      interaction: {
-          hex: true,
-          rgba: false,
-          hsla: false,
-          hsva: false,
-          cmyk: false,
-          input: true,
-          cancel: true,
-          clear: true,
-          save: true,
-      }
+        // Main components
+        preview: true,
+        opacity: true,
+        hue: true,
+        // Input / output Options
+        interaction: {
+            hex: false,
+            rgba: false,
+            hsla: false,
+            hsva: false,
+            cmyk: false,
+            input: true,
+            cancel: true,
+            clear: true,
+            save: true,
+        }
+      },
+      strings: {
+        save: 'yay',
+        clear: 'nay',
+        cancel: 'reset',
       }
     });
   }

@@ -4,6 +4,14 @@ html, body, #app, #stl_cont {
   margin: 0;
 }
 
+.color-input-button {
+  width: 4rem;
+  height: 4rem;
+  display: inline-block;
+  border-radius: 50px;
+  margin: 4px 2px;
+}
+
 .spinner-wrapper.shrink {
   height: 0;
   transition: height 0.25s ease-in;
