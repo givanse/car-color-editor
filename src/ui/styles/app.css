@@ -10,11 +10,6 @@ html, body, #app {
   margin: 0;
 }
 
-.editor-tools {
-  position: absolute;
-  top: 0;
-}
-
 footer {
   padding: 1rem;
   height: 7rem;
@@ -30,6 +25,13 @@ footer {
 footer a {
   text-decoration: none;
   color: #fff;
+}
+
+.editor-tools {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .color-input-button {
