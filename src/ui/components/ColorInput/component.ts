@@ -2,32 +2,32 @@ import Component, { tracked } from '@glimmer/component';
 
 export default class ColorInput extends Component {
 
-  args: {
+  public args: {
     colorName: string;
     color: string;
     updateColor: (colorName: string, color: string) => void;
-  }
+  };
 
   @tracked
-  color: string = '';
+  public color: string = '';
 
-  constructor(options: Object) {
+  constructor(options: object) {
     super(options);
 
     this.color = this.args.color;
   }
 
-  didInsertElement() {
+  public didInsertElement() {
     const { firstNode } = this.bounds;
     const input = firstNode;
 
     const pickr = this.buildPickr(input, this.color);
-    
-    pickr.on('change', color => {
+
+    pickr.on('change', (color) => {
       const newColor = color.toHEXA().toString();
       this.args.updateColor(this.args.colorName, newColor);
     });
-    pickr.on('save', color => { // yay
+    pickr.on('save', (color) => { // yay
       if (!color) {
         color = this.color;
       } else {
@@ -47,7 +47,7 @@ export default class ColorInput extends Component {
     });
   }
 
-  buildPickr(input: Element, defaultColor: string) {
+  public buildPickr(input: Element, defaultColor: string) {
     return window.Pickr.create({
       el: input,
       useAsButton: true,

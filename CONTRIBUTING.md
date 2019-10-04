@@ -1,9 +1,7 @@
 ```
 git clone git@github.com:givanse/car-color-editor.git
 yarn install
-yarn test
+ember test --server
 
-ember s
-
-#visit http://localhost:4200/
+#visit http://localhost:7357/
 ```

@@ -29,7 +29,7 @@ footer a {
 
 .editor-tools {
   position: absolute;
-  top: 0;
+  top: 0px;
   width: 100%;
   text-align: center;
 }
@@ -43,9 +43,13 @@ footer a {
   border: black solid 1px;
 }
 
+.color-input-button:hover {
+  border-color: #b1b1b1;
+}
+
 .spinner-wrapper.shrink {
   height: 0;
-  transition: height 0.25s ease-in;
+  transition: height 0.35s ease-in;
 }
 
 /* https://codepen.io/Cybolic/pen/CAlJr */

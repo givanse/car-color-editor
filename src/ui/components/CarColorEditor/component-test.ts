@@ -5,9 +5,4 @@ const { module, test } = QUnit;
 
 module('Component: CarColorEditor', function(hooks) {
   setupRenderingTest(hooks);
-
-  test('it renders', async function(assert) {
-    await this.render(hbs`<CarColorEditor />`);
-    assert.equal(this.containerElement.textContent, 'Welcome to Glimmer!\n');
-  });
 });

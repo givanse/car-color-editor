@@ -26,7 +26,7 @@
 
 <div class="spinner-wrapper {{if all3dFilesLoaded 'shrink'}}">
   {{#unless all3dFilesLoaded}}
-    <div class="spinner">
+    <div class="spinner {{if all3dFilesLoaded 'shrink'}}">
       <div class="spinner-circle spinner-circle-outer"></div>
       <div class="spinner-circle-off spinner-circle-inner"></div>
       <div class="spinner-circle spinner-circle-single-1"></div>

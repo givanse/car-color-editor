@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/givanse/car-color-editor.svg?branch=master)](https://travis-ci.org/givanse/car-color-editor)
+
 # car-color-editor
 
 ![tm3 screenshot](tm3-screenshot.png)

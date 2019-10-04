@@ -6,7 +6,7 @@ export const tm3ModelIds = {
   headLights: [405],
   chromeTrim: [501, 502, 503, 504, 506, 507],
   windows: [601, 602, 603, 604],
-}
+};
 
 export default function(colors) {
   const modelIds = tm3ModelIds;
@@ -70,7 +70,7 @@ export default function(colors) {
     {filename: 'disc_and_axle.stl', color: discColor,
       rotationx: leftDiscRotationX, rotationy: leftwheelsrotationy,
       x: -backwheelsx + 75, y: wheelsy, z: backwheelsz},
-    {id: modelIds.rims[2],filename: 'rim.stl',
+    {id: modelIds.rims[2], filename: 'rim.stl',
       x: -backwheelsx, y: wheelsy, z: backwheelsz, rotationy: leftwheelsrotationy, color: rimColor},
     {id: modelIds.calipers[2], filename: 'caliper.stl',
       x: -backwheelsx, y: calipersy, z: backcalipersz, color: caliperColor},
@@ -83,7 +83,7 @@ export default function(colors) {
     {filename: 'disc_and_axle.stl',  color: discColor,
       rotationx: leftDiscRotationX, rotationy: leftwheelsrotationy,
       x: -frontwheelsx + 75, y: wheelsy, z: frontwheelsz},
-    {id: modelIds.rims[3],filename: 'rim.stl',
+    {id: modelIds.rims[3], filename: 'rim.stl',
       x: -frontwheelsx, y: wheelsy, z: frontwheelsz, rotationy: leftwheelsrotationy, color: rimColor},
     {id: modelIds.calipers[3], filename: 'caliper.stl',
       x: -frontwheelsx, y: calipersy, z: frontcalipersz, color: caliperColor},

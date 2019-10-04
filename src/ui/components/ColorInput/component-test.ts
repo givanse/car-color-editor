@@ -1,32 +1,17 @@
-import { setupRenderingTest, render } from '@glimmer/test-helpers';
 import hbs from '@glimmer/inline-precompile';
+import { render, setupRenderingTest } from '@glimmer/test-helpers';
 
 const { module, test } = QUnit;
 
 module('Component: ColorInput', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-    /*
-     * You may pass data into the component through arguments set on the
-     * `testContext`
-     *
-     * For example:
-     *
-     * ```
-     * this.foo = { foo: '123' };
-     *
-     * await render(hbs`<ColorInput @foo={{this.foo}} />`)
-     *
-     * // or
-     *
-     * this.foo = 'bar';
-     * await render(hbs`<p>{{this.foo}}</p>`);
-     *
-     * assert.dom('p').text('bar');
-     * ```
-     */
-    await render(hbs`<ColorInput />`);
-    assert.ok(this.containerElement.querySelector('div'));
+  test('renders with a background color', async function(assert) {
+    this.colorName = 'foobar';
+    this.color = '#00ff00';
+    await render(hbs`<ColorInput @colorName={{this.colorName}} @color={{this.color}} />`);
+
+    const d = this.containerElement.querySelector('div');
+    assert.equal(d.style.backgroundColor, 'rgb(0, 255, 0)');
   });
 });

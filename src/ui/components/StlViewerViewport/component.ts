@@ -3,22 +3,22 @@ import getTM3Models, {tm3ModelIds} from './tesla-m3.model';
 
 export default class StlViewerViewport extends Component {
 
-  stlViewer;
+  public stlViewer;
 
   @tracked
-  carColor: string;
+  public carColor: string;
   @tracked
-  caliperColor: string;
+  public caliperColor: string;
   @tracked
-  rimColor: string;
+  public rimColor: string;
   @tracked
-  headLightsColor: string;
+  public headLightsColor: string;
   @tracked
-  chromeTrimColor: string;
+  public chromeTrimColor: string;
   @tracked
-  windowsColor: string;
+  public windowsColor: string;
   @tracked
-  all3dFilesLoaded: boolean = false;
+  public all3dFilesLoaded: boolean = false;
 
   constructor(options) {
     super(options);
@@ -32,18 +32,18 @@ export default class StlViewerViewport extends Component {
     this.updateQueryParams();
   }
 
-  parseHash(hash: string) {
+  public parseHash(hash: string) {
 
     const search = hash.substring(hash.indexOf('?') + 1);
     const queryParams = search.split('&');
 
     for (const qp of queryParams) {
       const [key, value] = qp.split('=');
-      this[key] = '#' + value; //TODO: color hashes are a mess
+      this[key] = '#' + value; // TODO: color hashes are a mess
     }
   }
 
-  useDefaultColors() {
+  public useDefaultColors() {
     this.carColor = '#b18f15';
     this.caliperColor = '#8916d1';
     this.rimColor = '#181818';
@@ -56,6 +56,68 @@ export default class StlViewerViewport extends Component {
     const { firstNode } = this.bounds;
     const hostElement = firstNode.parentElement.querySelector('#stl_cont');
     this.stlViewer = this.initStlViewwer(hostElement);
+  }
+
+  public buildQueryParams(obj) {
+    let qp = '';
+
+    for (const key of Object.keys(obj)) {
+      if (qp) {
+        qp += '&';
+      }
+      qp += `${key}=${obj[key]}`;
+    }
+
+    return qp;
+  }
+
+  public updateQueryParams() {
+    function removeHash(s) { return s.replace('#', ''); }
+
+    const values = {
+      carColor: removeHash(this.carColor),
+      caliperColor: removeHash(this.caliperColor),
+      rimColor: removeHash(this.rimColor),
+      chromeTrimColor: removeHash(this.chromeTrimColor),
+      headLightsColor: removeHash(this.headLightsColor),
+      windowsColor: removeHash(this.windowsColor),
+    };
+
+    const qp = this.buildQueryParams(values);
+    window.location.hash = '?' + qp;
+  }
+
+  public updateColor(colorName: string, color: string) {
+    this[colorName] = color;
+    // TODO: maybe turn into a proper map
+    let ids;
+    const modelIds = tm3ModelIds;
+    switch (colorName) {
+      case 'carColor':
+        ids = modelIds.car;
+        break;
+      case 'rimColor':
+        ids = modelIds.rims;
+        break;
+      case 'caliperColor':
+        ids = modelIds.calipers;
+        break;
+      case 'headLightsColor':
+        ids = modelIds.headLights;
+        break;
+      case 'chromeTrimColor':
+        ids = modelIds.chromeTrim;
+        break;
+      case 'windowsColor':
+        ids = modelIds.windows;
+        break;
+    }
+
+    for (const modelId of ids) {
+      this.stlViewer.set_color(modelId, color);
+    }
+
+    this.updateQueryParams();
   }
 
   private initStlViewwer(hostElement) {
@@ -83,67 +145,5 @@ export default class StlViewerViewport extends Component {
     };
     const StlViewer = window.StlViewer;
     return new StlViewer(hostElement, initParams);
-  }
-
-  buildQueryParams(obj) {
-    let qp = '';
-    
-    for (const key of Object.keys(obj)) {
-      if (qp) {
-        qp += '&';
-      }
-      qp += `${key}=${obj[key]}`;
-    }
-
-    return qp;
-  }
-
-  updateQueryParams() {
-    function removeHash(s) { return s.replace('#', ''); }
-
-    const values = {
-      carColor: removeHash(this.carColor),
-      caliperColor: removeHash(this.caliperColor),
-      rimColor: removeHash(this.rimColor),
-      chromeTrimColor: removeHash(this.chromeTrimColor),
-      headLightsColor: removeHash(this.headLightsColor),
-      windowsColor: removeHash(this.windowsColor),
-    };
-
-    const qp = this.buildQueryParams(values);
-    window.location.hash = '?' + qp;
-  }
-
-  updateColor(colorName: string, color: string) {
-    this[colorName] = color;
-    //TODO: maybe turn into a proper map
-    let ids;
-    const modelIds = tm3ModelIds;
-    switch(colorName) {
-      case 'carColor':
-        ids = modelIds.car;
-        break;
-      case 'rimColor':
-        ids = modelIds.rims;
-        break;
-      case 'caliperColor':
-        ids = modelIds.calipers;
-        break;
-      case 'headLightsColor':
-        ids = modelIds.headLights;
-        break;
-      case 'chromeTrimColor':
-        ids = modelIds.chromeTrim;
-        break;
-      case 'windowsColor':
-        ids = modelIds.windows;
-        break;
-    }
-
-    for (const modelId of ids) {
-      this.stlViewer.set_color(modelId, color);
-    }
-
-    this.updateQueryParams();
   }
 }
