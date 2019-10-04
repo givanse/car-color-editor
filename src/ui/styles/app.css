@@ -32,6 +32,7 @@ footer a {
   top: 0px;
   width: 100%;
   text-align: center;
+  transform: translateZ(0);
 }
 
 .color-input-button {
@@ -47,8 +48,17 @@ footer a {
   border-color: #b1b1b1;
 }
 
+@keyframes repaint {
+  from {
+    width: 99.999%
+  }
+  to {
+    width: 100%
+  }
+}
+
 .spinner-wrapper.shrink {
-  height: 0;
+  height: 0px;
   transition: height 0.35s ease-in;
 }
 
