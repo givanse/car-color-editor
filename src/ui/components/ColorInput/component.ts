@@ -5,7 +5,8 @@ export default class ColorInput extends Component {
   public args: {
     colorName: string;
     color: string;
-    updateColor: (colorName: string, color: string) => void;
+    updateColor: (colorName: string, color: string, alpha: number) => void;
+    alpha: boolean;
   };
 
   @tracked
@@ -24,8 +25,11 @@ export default class ColorInput extends Component {
     const pickr = this.buildPickr(input, this.color);
 
     pickr.on('change', (color) => {
+      const alpha = color.a;
+      color.a = 1;
       const newColor = color.toHEXA().toString();
-      this.args.updateColor(this.args.colorName, newColor);
+      this.color = newColor;
+      this.updateColor(newColor, alpha);
     });
     pickr.on('save', (color) => { // yay
       if (!color) {
@@ -34,17 +38,18 @@ export default class ColorInput extends Component {
         color = color.toHEXA().toString();
         this.color = color;
       }
-      this.args.updateColor(this.args.colorName, this.color);
+      this.updateColor(this.color);
     });
     pickr.on('clear', () => {
-      this.args.updateColor(this.args.colorName, this.color);
+      this.updateColor(this.color);
     });
     pickr.on('cancel', () => {
-      this.args.updateColor(this.args.colorName, this.color);
+      this.updateColor(this.color);
     });
-    pickr.on('hide', () => {
-      this.args.updateColor(this.args.colorName, this.color);
-    });
+  }
+
+  updateColor(color: string, alpha?: number) {
+    this.args.updateColor(this.args.colorName, color, alpha);
   }
 
   public buildPickr(input: Element, defaultColor: string) {
@@ -58,7 +63,7 @@ export default class ColorInput extends Component {
       components: {
         // Main components
         preview: true,
-        opacity: true,
+        opacity: this.args.alpha,
         hue: true,
         // Input / output Options
         interaction: {

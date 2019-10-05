@@ -36,7 +36,8 @@ export default function(colors) {
   const rearLightsColor = '#910000';
   const discColor = '#363636';
   const windshieldColor = '#9ec8ef';
-  const windshieldOpacity = 0.5;
+  const windshieldOpacity = 0.85;
+  const windowsOpacity = 0.75;
 
   return [
     // All coordinates are offsets relative to the car model.
@@ -121,16 +122,16 @@ export default function(colors) {
       color: chromeTrimColor, y: -10, z: 100},
 
     {id: modelIds.windows[0], display: 'smooth', filename: 'Front_left_window.stl',
-      color: windowsColor, opacity: windshieldOpacity,
+      color: windowsColor, opacity: windowsOpacity,
       x: 745, y: 340, z: 277}, // right window
     {id: modelIds.windows[1], display: 'smooth', filename: 'Front_right_window.stl',
-      color: windowsColor, opacity: windshieldOpacity,
+      color: windowsColor, opacity: windowsOpacity,
       x: -745, y: 340, z: 277}, // left window
     {id: modelIds.windows[2], display: 'smooth', filename: 'Rear_left_window.stl',
-      color: windowsColor, opacity: windshieldOpacity,
+      color: windowsColor, opacity: windowsOpacity,
       x: 720, y: 380, z: -905},
     {id: modelIds.windows[3], display: 'smooth', filename: 'Rear_right_window.stl',
-      color: windowsColor, opacity: windshieldOpacity,
+      color: windowsColor, opacity: windowsOpacity,
       x: -720, y: 380, z: -905},
 
     {id: modelIds.chromeTrim[4], filename: 'Rear_T_logo.stl',

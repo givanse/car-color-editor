@@ -49,7 +49,7 @@ export default class StlViewerViewport extends Component {
     this.rimColor = '#181818';
     this.headLightsColor = '#f1f1f1';
     this.chromeTrimColor = '#363636';
-    this.windowsColor = '#9ec8ef';
+    this.windowsColor = '#000000';
   }
 
   public didInsertElement() {
@@ -87,7 +87,7 @@ export default class StlViewerViewport extends Component {
     window.location.hash = '?' + qp;
   }
 
-  public updateColor(colorName: string, color: string) {
+  public updateColor(colorName: string, color: string, opacity: number = 1) {
     this[colorName] = color;
     // TODO: maybe turn into a proper map
     let ids;
@@ -115,6 +115,10 @@ export default class StlViewerViewport extends Component {
 
     for (const modelId of ids) {
       this.stlViewer.set_color(modelId, color);
+
+      if (opacity != 1) {
+        this.stlViewer.set_opacity(modelId, opacity);
+      }
     }
 
     this.updateQueryParams();

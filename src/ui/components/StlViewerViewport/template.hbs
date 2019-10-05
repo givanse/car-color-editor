@@ -21,7 +21,8 @@
 
   <ColorInput @colorName="windowsColor"
               @color={{windowsColor}}
-              @updateColor={{action updateColor}} />
+              @updateColor={{action updateColor}}
+              @alpha={{true}} />
 </div>
 
 <div class="spinner-wrapper {{if all3dFilesLoaded 'shrink'}}">
