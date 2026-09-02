@@ -1,0 +1,28 @@
+# https://carcolor.givan.se  (Netlify site name: carcolor)
+# Production branch: master.
+#
+# Explicit deploys only (shared 300 credits/mo).
+# skip_prs is already true. stop_builds stays false (CLI + hooks must work).
+#
+# Ignore runs FROM THE BASE DIRECTORY (repo root here; no [build] base).
+# If a leftover UI Base directory is ever set, the script still diffs
+# from $NETLIFY_REPO_PATH (repo root). A naive `git diff … .` from base
+# would miss root UI files or skip a real UI build.
+#
+# Intentional ship: `netlify deploy --prod` or a build hook (hooks bypass
+# ignore). Squash-merge with [skip netlify] unless that merge is the ship.
+
+[build]
+  command = "ember build -e production"
+  publish = "dist"
+  # Path-based safety net for git-triggered production builds.
+  # Exit 0 = skip, exit 1 = continue. Build hooks bypass ignore.
+  ignore = "bash ./scripts/netlify-ignore.sh"
+
+# skip_prs is already true; this is belt-and-suspenders. stop_builds stays false.
+[context.deploy-preview]
+  ignore = "exit 0"
+
+# No branch-deploy workflow; skip those too (credits).
+[context.branch-deploy]
+  ignore = "exit 0"
