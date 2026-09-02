@@ -1,27 +1,25 @@
 # https://carcolor.givan.se  (Netlify site name: carcolor)
 # Production branch: master.
 #
-# Account-wide policy: explicit deploys (shared 300 credits/mo).
-# skip_prs is already true in the Netlify API. Do not set stop_builds
-# (that also blocks Trigger deploy and build hooks).
+# Explicit deploys only (shared 300 credits/mo).
+# skip_prs is already true. stop_builds stays false (CLI + hooks must work).
 #
 # Ignore runs FROM THE BASE DIRECTORY (repo root here; no [build] base).
 # If a leftover UI Base directory is ever set, the script still diffs
-# from $NETLIFY_REPO_PATH (repo root). Do not replace this with a naive
-# `git diff … .` from base — that would miss root files or skip the UI.
+# from $NETLIFY_REPO_PATH (repo root). A naive `git diff … .` from base
+# would miss root UI files or skip a real UI build.
 #
-# Do not fill Base directory / Build command / Publish directory in the
-# Netlify UI as part of landing ignore. The live site historically used
-# `ember build -e production` (publish dist/). Leave that UI command
-# alone unless you intend to move it into this file and clear the UI.
+# Intentional ship: `netlify deploy --prod` or a build hook (hooks bypass
+# ignore). Squash-merge with [skip netlify] unless that merge is the ship.
 
 [build]
+  command = "ember build -e production"
+  publish = "dist"
   # Path-based safety net for git-triggered production builds.
   # Exit 0 = skip, exit 1 = continue. Build hooks bypass ignore.
   ignore = "bash ./scripts/netlify-ignore.sh"
 
-# Always skip Deploy Previews (every PR). skip_prs is already true;
-# this toml belt matches that policy if the API flag is ever unset.
+# skip_prs is already true; this is belt-and-suspenders. stop_builds stays false.
 [context.deploy-preview]
   ignore = "exit 0"
 

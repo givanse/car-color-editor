@@ -68,6 +68,12 @@ echo "== toml: DP always skips; production is path-based, not exit 0 =="
 grep -q 'ignore = "bash ./scripts/netlify-ignore.sh"' "$toml" \
   || { echo "FAIL: production ignore must be ./scripts/netlify-ignore.sh" >&2; fail=1; }
 echo "ok: production ignore is ./scripts/netlify-ignore.sh"
+grep -q 'command = "ember build -e production"' "$toml" \
+  || { echo "FAIL: production command must be ember build -e production" >&2; fail=1; }
+echo "ok: command is ember build -e production"
+grep -q 'publish = "dist"' "$toml" \
+  || { echo "FAIL: publish must be dist" >&2; fail=1; }
+echo "ok: publish is dist"
 grep -A1 '\[context.deploy-preview\]' "$toml" | grep -q 'ignore = "exit 0"' \
   || { echo "FAIL: [context.deploy-preview] ignore = \"exit 0\"" >&2; fail=1; }
 echo "ok: [context.deploy-preview] ignore = \"exit 0\""
@@ -132,7 +138,7 @@ run_ignore "$root" "" "$cached"
 assert_eq "$?" 1 "CACHED_COMMIT_REF unset"
 set -e
 
-echo "== equal refs fail open (Trigger deploy / empty cache) =="
+echo "== equal refs fail open (empty cache / same SHA) =="
 set +e
 run_ignore "$root" "$cached" "$cached" "$root"
 assert_eq "$?" 1 "equal SHAs"

@@ -8,15 +8,15 @@
 # `git diff … .` from a subdirectory base would miss root UI files or
 # skip a real UI build.
 #
-# Fail open to BUILD (exit 1) when refs are missing, equal (Trigger
-# deploy / empty cache), git cannot resolve them, or the repo root
+# Fail open to BUILD (exit 1) when refs are missing, equal (empty cache /
+# first git-triggered build), git cannot resolve them, or the repo root
 # cannot be found. Never `exit 0` unconditionally — that would skip
 # real UI builds.
 #
-# Docs / this ignore script / netlify.toml are NOT in the watch list,
-# so landing this policy does not burn a production deploy. Ship UI
-# with Deploys → Trigger deploy (equal SHA fails open) or a build hook
-# (hooks bypass ignore).
+# Docs / this ignore script / netlify.toml are NOT in the watch list.
+# Intentional ship is `netlify deploy --prod` or a build hook (hooks
+# bypass ignore). Squash-merge with [skip netlify] unless that merge
+# is the ship. stop_builds stays false.
 set -u
 
 cached="${CACHED_COMMIT_REF:-}"
@@ -26,7 +26,7 @@ if [[ -z "$cached" || -z "$commit" ]]; then
   exit 1
 fi
 
-# Same SHA: first build, cleared cache, or Deploys → Trigger deploy.
+# Same SHA: first git-triggered build or cleared cache.
 # git diff --quiet would be empty and skip; we must not skip those.
 if [[ "$cached" == "$commit" ]]; then
   exit 1
@@ -54,9 +54,9 @@ if ! git -C "$repo" cat-file -e "${commit}^{commit}" 2>/dev/null; then
   exit 1
 fi
 
-# Paths that ship https://carcolor.givan.se (historical command:
-# ember build -e production). Do not list netlify.toml, README, or
-# this script — those must skip so landing ignore is free.
+# Paths that ship https://carcolor.givan.se (`ember build -e production`).
+# Do not list netlify.toml, README, or this script — those must skip so
+# landing ignore is free. CLI `netlify deploy --prod` does not use this.
 git -C "$repo" diff --quiet "$cached" "$commit" -- \
   src/ \
   vendors/ \
